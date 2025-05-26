@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-// import ProductCard from "./ProductCard";
 import { motion, AnimatePresence } from "motion/react";
 import NoProductAvailable from "./NoProductAvailable";
 import { Loader2 } from "lucide-react";
 import { useCategories, useProducts } from "@/hooks/useFakeStoreApi";
-
 import Section from "./Section";
-// import { Product } from "@/types/fakeStoreApi";
+import CategoryBar from "./CategoryBar";
+import ProductCard from "./ProductCard";
 
 const ProductGrid = () => {
   // Fetch all available categories
@@ -24,7 +23,7 @@ const ProductGrid = () => {
   // For demo purposes - log categories and products to console
   useEffect(() => {
     if (categories.length > 0) {
-      console.log("Available categories:", categories);
+      // console.log("Available categories:", categories);
 
       // Select first category as default if none is selected
       if (!selectedCategory) {
@@ -34,43 +33,30 @@ const ProductGrid = () => {
   }, [categories, selectedCategory]);
 
   // Log products when they change
-  useEffect(() => {
-    console.log("Products for category:", selectedCategory, products);
-  }, [products, selectedCategory]);
+  // useEffect(() => {
+  //   console.log("Products for category:", selectedCategory, products);
+  // }, [products, selectedCategory]);
 
   // Combined loading state
   const loading = categoriesLoading || productsLoading;
-
-  // For compatibility with your existing code
-  const [selectedTab, setSelectedTab] = useState(productType[0]?.title || "");
 
   return (
     <Section className="flex flex-col lg:px-0 my-10">
       {/* Category selection UI - simple buttons for now */}
       {!categoriesLoading && categories.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-4">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={`px-3 py-1.5 rounded ${
-                selectedCategory === category
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-800"
-              }`}
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+        <CategoryBar
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          categories={categories}
+        />
       )}
 
-      {/* Existing loading and product display logic */}
+      {/* Loading and product display logic */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-10 min-h-80 space-y-4 text-center bg-gray-100 rounded-lg w-full mt-10">
           <motion.div className="flex items-center space-x-2 text-blue-600">
             <Loader2 className="w-5 h-5 animate-spin" />
-            <span>loading Products...</span>
+            <span>Loading Products...</span>
           </motion.div>
         </div>
       ) : products?.length ? (
@@ -84,18 +70,14 @@ const ProductGrid = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  {/* Instead of rendering ProductCard, just show product title for now */}
-                  <div className="border p-3 rounded">
-                    <p>{product.title}</p>
-                    <p className="text-sm text-gray-500">${product.price}</p>
-                  </div>
+                  <ProductCard key={product?.id} product={product} />
                 </motion.div>
               </AnimatePresence>
             ))}
           </>
         </div>
       ) : (
-        <NoProductAvailable selectedTab={selectedCategory || selectedTab} />
+        <NoProductAvailable selectedTab={selectedCategory} />
       )}
     </Section>
   );

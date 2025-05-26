@@ -1,37 +1,10 @@
-/**
- * Product entity representing an item in the store
- *
- * @interface Product
- */
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}
+import type { CartItem } from "@/features/shop/types";
 
 /**
  * Categories type for product classification
  * Represents a collection of category strings
  */
 export type Category = string;
-
-/**
- * Cart item representing a product in the shopping cart
- *
- * @interface CartItem
- */
-export interface CartItem {
-  product: Product;
-
-  quantity: number;
-}
 
 /**
  * Shopping cart state

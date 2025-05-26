@@ -1,4 +1,9 @@
-import { Product, CartItem } from "@/types/shopping";
+import type { Product } from "@/types/fakeStoreApi";
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
 
 // Define the shop state type
 export interface ShopState {
@@ -11,8 +16,6 @@ export interface ShopState {
     totalItems: number;
     totalPrice: number;
   };
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
 }
 
 // Action payload types
