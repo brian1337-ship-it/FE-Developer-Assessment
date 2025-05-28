@@ -16,9 +16,11 @@ const QuantityButtons = ({ product, className }: Props) => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state: RootState) => state.shop);
 
+  // Product quantity in the cart
   const itemCount =
     cart.items.find((item) => item.product.id === product.id)?.quantity || 0;
 
+  // Remove a product from the cart. If its quantity is more than 1, decrease the quantity.
   const handleRemoveProduct = () => {
     dispatch(removeItem(product?.id));
     if (itemCount > 1) {
@@ -30,6 +32,7 @@ const QuantityButtons = ({ product, className }: Props) => {
     }
   };
 
+  // Add a product to the cart. If it already exists, increase its quantity.
   const handleAddToCart = () => {
     dispatch(addItem(product));
     toast.success("Quantity Increased successfully!");

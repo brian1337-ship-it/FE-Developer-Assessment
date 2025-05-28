@@ -58,10 +58,6 @@ export const shopSlice = createSlice({
         }
       }
     },
-    // getItemCount: (state, action: PayloadAction<number>) => {
-    //   const item = state.cart.items.find(item => item.product.id === action.payload);
-    //   return item ? item.quantity : 0;
-    // }
   },
 });
 

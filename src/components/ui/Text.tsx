@@ -1,12 +1,11 @@
 import { cn } from "@/utils/styleMerge";
 
-const Title = ({
-  children,
-  className,
-}: {
+interface TextProps {
   children: React.ReactNode;
   className?: string;
-}) => {
+}
+
+const Title = ({ children, className }: TextProps) => {
   return (
     <h2
       className={cn(
@@ -18,13 +17,8 @@ const Title = ({
     </h2>
   );
 };
-const SubTitle = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
+
+const SubTitle = ({ children, className }: TextProps) => {
   return (
     <h3 className={cn("font-semibold text-gray-900 font-sans", className)}>
       {children}
@@ -32,13 +26,8 @@ const SubTitle = ({
   );
 };
 
-const SubText = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
+const SubText = ({ children, className }: TextProps) => {
   return <p className={cn("text-gray-600 text-sm", className)}>{children}</p>;
 };
+
 export { Title, SubTitle, SubText };

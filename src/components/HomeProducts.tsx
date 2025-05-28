@@ -7,8 +7,8 @@ import Section from "./Section";
 import CategoryBar from "./CategoryBar";
 import ProductCard from "./ProductCard";
 
-const ProductGrid = () => {
-  // Fetch all available categories
+const HomeProducts = () => {
+  // Fetch all categories
   const { data: categories = [], isLoading: categoriesLoading } =
     useCategories();
 
@@ -20,7 +20,7 @@ const ProductGrid = () => {
     selectedCategory ? { category: selectedCategory } : {}
   );
 
-  // For demo purposes - log categories and products to console
+  // Use first category as default if none is selected
   useEffect(() => {
     if (categories.length > 0) {
       // console.log("Available categories:", categories);
@@ -61,20 +61,18 @@ const ProductGrid = () => {
         </div>
       ) : products?.length ? (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 mt-10">
-          <>
-            {products?.map((product) => (
-              <AnimatePresence key={product?.id}>
-                <motion.div
-                  layout
-                  initial={{ opacity: 0.2 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  <ProductCard key={product?.id} product={product} />
-                </motion.div>
-              </AnimatePresence>
-            ))}
-          </>
+          {products?.map((product) => (
+            <AnimatePresence key={product?.id}>
+              <motion.div
+                layout
+                initial={{ opacity: 0.2 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <ProductCard key={product?.id} product={product} />
+              </motion.div>
+            </AnimatePresence>
+          ))}
         </div>
       ) : (
         <NoProductAvailable selectedTab={selectedCategory} />
@@ -83,4 +81,4 @@ const ProductGrid = () => {
   );
 };
 
-export default ProductGrid;
+export default HomeProducts;

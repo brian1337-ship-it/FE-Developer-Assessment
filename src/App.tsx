@@ -1,19 +1,14 @@
-/**
- * Main application component that sets up the routing and
- * overall layout structure for the e-commerce platform.
- 
- */
 import Section from "@/components/Section";
 import Layout from "@/pages/Layout";
 import HomeBanner from "./components/HomeBanner";
-import ProductGrid from "./components/ProductGrid";
+import HomeProducts from "./components/HomeProducts";
 
-const App = (): JSX.Element => {
+const App = () => {
   return (
     <Layout>
       <Section>
         <HomeBanner />
-        <ProductGrid />
+        <HomeProducts />
       </Section>
     </Layout>
   );
