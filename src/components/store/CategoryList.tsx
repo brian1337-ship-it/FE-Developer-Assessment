@@ -16,7 +16,7 @@ const CategoryList = ({
 }: Props) => {
   return (
     <div className="w-full bg-white p-5">
-      <Title className="text-base font-black">Product Categories</Title>
+      <Title className="text-sm font-black">Product Categories</Title>
       <div className="mt-2 space-y-2">
         {categories?.map((category, index) => (
           <div
