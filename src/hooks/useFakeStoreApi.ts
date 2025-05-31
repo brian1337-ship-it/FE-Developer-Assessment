@@ -220,3 +220,52 @@ export const useInvalidateInterests = () => {
   const queryClient = useQueryClient();
   return () => queryClient.invalidateQueries({ queryKey: ["interests"] });
 };
+
+/**
+ * Searches products by title/description from the Fake Store API
+ * Note: FakeStore API doesn't have native search, so we fetch all products and filter client-side
+ * @param searchQuery The search term
+ * @param enabled Whether to enable the query
+ */
+export const useSearchProducts = (
+  searchQuery: string,
+  enabled: boolean = true
+) => {
+  return useQuery<Product[]>({
+    queryKey: ["searchProducts", searchQuery],
+    queryFn: async () => {
+      try {
+        // Fetch all products since FakeStore API doesn't have search endpoint
+        const response = await fetch(`${API_URL}/products`);
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to search products: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const allProducts: Product[] = await response.json();
+
+        // Filter products based on search query
+        if (!searchQuery.trim()) {
+          return allProducts;
+        }
+
+        const lowercaseQuery = searchQuery.toLowerCase();
+        return allProducts.filter(
+          (product) =>
+            product.title.toLowerCase().includes(lowercaseQuery) ||
+            product.description.toLowerCase().includes(lowercaseQuery) ||
+            product.category.toLowerCase().includes(lowercaseQuery)
+        );
+      } catch (error) {
+        console.error("Error searching products:", error);
+        throw error instanceof Error
+          ? error
+          : new Error("An unknown error occurred while searching products");
+      }
+    },
+    enabled: enabled && searchQuery.length > 0, // Only search if query exists
+    ...defaultQueryOptions,
+  });
+};

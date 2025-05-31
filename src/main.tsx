@@ -8,6 +8,7 @@ import Product from "./pages/Product.tsx";
 import Store from "./pages/Store.tsx";
 import Cart from "./pages/Cart.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import SearchResults from "./pages/SearchResults.tsx";
 import { store } from "./store/store.ts";
 import "./index.css";
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />,
+  },
+  {
+    path: "/search",
+    element: <SearchResults />,
   },
   {
     path: "*",
