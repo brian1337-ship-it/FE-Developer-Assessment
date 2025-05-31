@@ -16,7 +16,7 @@ export interface ShopState {
 }
 
 // localStorage utilities for cart persistence
-const CART_STORAGE_KEY = "shop-cart";
+const cartStorageKey = "shop-cart";
 
 /**
  * Load cart state from localStorage
@@ -24,7 +24,7 @@ const CART_STORAGE_KEY = "shop-cart";
  */
 const loadCartFromStorage = () => {
   try {
-    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+    const savedCart = localStorage.getItem(cartStorageKey);
     if (savedCart) {
       const parsedCart = JSON.parse(savedCart);
       // Validate the structure to ensure it matches our CartItem interface
