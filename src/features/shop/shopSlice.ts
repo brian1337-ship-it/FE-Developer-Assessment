@@ -15,13 +15,49 @@ export interface ShopState {
   };
 }
 
-//Initial state
-const initialState: ShopState = {
-  cart: {
+// localStorage utilities for cart persistence
+const CART_STORAGE_KEY = "shop-cart";
+
+/**
+ * Load cart state from localStorage
+ * @returns Saved cart state or default empty cart
+ */
+const loadCartFromStorage = () => {
+  try {
+    const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+    if (savedCart) {
+      const parsedCart = JSON.parse(savedCart);
+      // Validate the structure to ensure it matches our CartItem interface
+      if (parsedCart.items && Array.isArray(parsedCart.items)) {
+        return parsedCart;
+      }
+    }
+  } catch (error) {
+    console.error("Error loading cart from localStorage:", error);
+  }
+  // Return default empty cart if loading fails or no saved data
+  return {
     items: [],
     totalItems: 0,
     totalPrice: 0,
-  },
+  };
+};
+
+/**
+ * Save cart state to localStorage
+ * @param cart - Cart state to save
+ */
+const saveCartToStorage = (cart: ShopState["cart"]) => {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  } catch (error) {
+    console.error("Error saving cart to localStorage:", error);
+  }
+};
+
+// Initial state with localStorage integration
+const initialState: ShopState = {
+  cart: loadCartFromStorage(),
 };
 
 export const shopSlice = createSlice({
@@ -54,6 +90,9 @@ export const shopSlice = createSlice({
         (total, item) => total + item.product.price * item.quantity,
         0
       );
+
+      // Save updated cart to localStorage
+      saveCartToStorage(state.cart);
     },
 
     // Removes one quantity of a product from cart or removes item completely if quantity is 1
@@ -83,12 +122,18 @@ export const shopSlice = createSlice({
           (total, item) => total + item.product.price * item.quantity,
           0
         );
+
+        // Save updated cart to localStorage after recalculation
+        saveCartToStorage(state.cart);
       }
     },
     clearCart: (state) => {
       state.cart.items = [];
       state.cart.totalItems = 0;
       state.cart.totalPrice = 0;
+
+      // Clear localStorage
+      saveCartToStorage(state.cart);
     },
   },
 });
