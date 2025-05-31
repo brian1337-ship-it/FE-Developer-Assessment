@@ -1,10 +1,8 @@
-import React from "react";
-
 import Logo from "./Logo";
 
 import Section from "./Section";
 import MobileMenu from "./ui/MobileMenu";
-// import CartIcon from "./CartIcon";
+import CartIcon from "./CartIcon";
 import SearchBar from "./SearchBar";
 import HeaderMenu from "./HeaderMenu";
 
@@ -19,7 +17,7 @@ const Header = () => {
         <HeaderMenu />
         <div className="w-auto md:w-1/3 flex items-center justify-end gap-5">
           <SearchBar />
-          {/* <CartIcon /> */}
+          <CartIcon />
         </div>
       </Section>
     </header>

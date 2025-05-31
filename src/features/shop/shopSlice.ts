@@ -1,20 +1,22 @@
 import type { Product } from "@/types/fakeStoreApi";
-import type { Category } from "@/types/shop";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { ShopState } from "./types";
 
-// export interface ShopState {
-//   productCategories: Category[];
-//   cartItems: Product[];
-// }
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
 
-// Initial state
+export interface ShopState {
+  cart: {
+    items: CartItem[];
+    totalItems: number;
+    totalPrice: number;
+  };
+}
+
+//Initial state
 const initialState: ShopState = {
-  products: [],
-  filteredProducts: [],
-  categories: [],
-  selectedCategory: "",
   cart: {
     items: [],
     totalItems: 0,
@@ -22,46 +24,108 @@ const initialState: ShopState = {
   },
 };
 
-// Create slice with reducers
 export const shopSlice = createSlice({
   name: "shop",
   initialState,
   reducers: {
-    addCategory: (state, action: PayloadAction<Category>) => {
-      state.categories.push(action.payload);
-    },
-    // Todo: remove not necessary
-    removeCategory: (state, action: PayloadAction<number>) => {
-      state.categories = state.categories.filter(
-        (_, index) => index !== action.payload
-      );
-    },
+    // Adds a product to the cart or increases quantity if already exists
     addItem: (state, action: PayloadAction<Product>) => {
+      // Check if item already exists in cart
       const item = state.cart.items.find(
         (item) => item.product.id === action.payload.id
       );
+
       if (item) {
+        // If item exists, increment quantity
         item.quantity += 1;
       } else {
+        // If new item, add to cart with quantity 1
         state.cart.items.push({ product: action.payload, quantity: 1 });
       }
+
+      // Recalculate total items count
+      state.cart.totalItems = state.cart.items.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+
+      // Recalculate total price
+      state.cart.totalPrice = state.cart.items.reduce(
+        (total, item) => total + item.product.price * item.quantity,
+        0
+      );
     },
+
+    // Removes one quantity of a product from cart or removes item completely if quantity is 1
     removeItem: (state, action: PayloadAction<number>) => {
+      // Find the item index in cart
       const itemIndex = state.cart.items.findIndex(
         (item) => item.product.id === action.payload
       );
+
       if (itemIndex !== -1) {
         if (state.cart.items[itemIndex].quantity > 1) {
+          // If quantity > 1, just decrease quantity
           state.cart.items[itemIndex].quantity -= 1;
         } else {
+          // If quantity = 1, remove item completely from cart
           state.cart.items.splice(itemIndex, 1);
         }
+
+        // Recalculate total items count
+        state.cart.totalItems = state.cart.items.reduce(
+          (total, item) => total + item.quantity,
+          0
+        );
+
+        // Recalculate total price
+        state.cart.totalPrice = state.cart.items.reduce(
+          (total, item) => total + item.product.price * item.quantity,
+          0
+        );
       }
+    },
+    clearCart: (state) => {
+      state.cart.items = [];
+      state.cart.totalItems = 0;
+      state.cart.totalPrice = 0;
     },
   },
 });
 
+// Selectors to calculate various cart details
+
+/**
+ * Calculate subtotal price of all items in cart
+ * @param state - Root state containing shop state
+ * @returns Subtotal price before any discounts
+ */
+export const selectSubTotalPrice = (state: { shop: ShopState }) => {
+  return state.shop.cart.items.reduce(
+    (total, item) => total + item.product.price * item.quantity,
+    0
+  );
+};
+
+/**
+ * Calculate final total price (apply discounts if any)
+ * @returns Final total price to be paid
+ */
+export const selectTotalPrice = (state: { shop: ShopState }) => {
+  const subtotal = selectSubTotalPrice(state);
+  return subtotal;
+};
+
+/**
+ * Calculate discount amount applied to cart
+ * @returns Amount of discount applied (currently 0)
+ */
+export const selectDiscountAmount = (state: { shop: ShopState }) => {
+  const subtotal = selectSubTotalPrice(state);
+  const total = selectTotalPrice(state);
+  return subtotal - total;
+};
+
 // Export actions and reducer
-export const { addCategory, removeCategory, addItem, removeItem } =
-  shopSlice.actions;
+export const { addItem, removeItem, clearCart } = shopSlice.actions;
 export default shopSlice.reducer;

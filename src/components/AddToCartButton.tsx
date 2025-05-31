@@ -1,7 +1,6 @@
 import { ShoppingBag } from "lucide-react";
 import toast from "react-hot-toast";
 import type { Product } from "@/types/fakeStoreApi";
-import { useState } from "react";
 import { Button } from "./ui/Button";
 import { cn } from "@/utils/styleMerge";
 import QuantityButtons from "./QuantityButtons";
