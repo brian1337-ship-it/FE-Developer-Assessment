@@ -1,6 +1,4 @@
 import { Facebook, Instagram, Youtube } from "lucide-react";
-import React from "react";
-
 import { cn } from "@/utils/styleMerge";
 import { Link } from "react-router-dom";
 

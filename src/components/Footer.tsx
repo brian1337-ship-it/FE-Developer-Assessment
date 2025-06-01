@@ -1,12 +1,8 @@
-import React from "react";
-
 import FooterTop from "./FooterTop";
 import Logo from "./Logo";
-
 import { SubText, SubTitle } from "./ui/Text";
 import { quickLinksData } from "@/constants/data";
 import { Link } from "react-router-dom";
-
 import Section from "./Section";
 import SocialMedia from "./SocialMedia";
 import { Button } from "./ui/Button";

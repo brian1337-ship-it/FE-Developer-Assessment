@@ -49,7 +49,7 @@ const loadCartFromStorage = () => {
  */
 const saveCartToStorage = (cart: ShopState["cart"]) => {
   try {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    localStorage.setItem(cartStorageKey, JSON.stringify(cart));
   } catch (error) {
     console.error("Error saving cart to localStorage:", error);
   }

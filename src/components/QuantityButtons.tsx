@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import type { Product } from "@/types/fakeStoreApi";
