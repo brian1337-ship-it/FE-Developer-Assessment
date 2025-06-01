@@ -6,9 +6,12 @@ import ProductCard from "./ProductCard";
 import Section from "./Section";
 import CategoryList from "./store/CategoryList";
 import { useProducts, useCategories } from "@/hooks/useFakeStoreApi";
+import Pagination from "./ui/Pagination";
 
 const StoreProducts = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8; // Show 8 products per page for better pagination demo
 
   // Fetch categories from API
   const {
@@ -32,9 +35,13 @@ const StoreProducts = () => {
           selectedCategories.includes(product.category)
         );
 
-  const loading = categoriesLoading || productsLoading;
+  // Pagination logic
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
-  // Handle category selection
+  // Reset to page 1 when filters change
   const handleCategoryToggle = (category: string) => {
     setSelectedCategories((prev) => {
       if (prev.includes(category)) {
@@ -45,7 +52,16 @@ const StoreProducts = () => {
         return [...prev, category];
       }
     });
+    setCurrentPage(1); // Reset to first page when filters change
   };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const loading = categoriesLoading || productsLoading;
 
   return (
     <div className="border-t">
@@ -60,7 +76,16 @@ const StoreProducts = () => {
           </div>
           <div className="flex-1 pt-5">
             <div className="mb-5 space-y-1.5 md:space-y-3">
-              <Title className="text-lg tracking-wide">Results</Title>
+              <div className="flex items-center justify-between">
+                <Title className="text-lg tracking-wide">Results</Title>
+                {!loading && (
+                  <p className="text-sm text-gray-600">
+                    Showing {startIndex + 1}-
+                    {Math.min(endIndex, filteredProducts.length)} of{" "}
+                    {filteredProducts.length} products
+                  </p>
+                )}
+              </div>
               <p className="font-light text-xs md:text-sm">
                 Check each product page for other buying options. Price and
                 other details may vary based on product size and color.
@@ -80,12 +105,22 @@ const StoreProducts = () => {
                   Failed to load products. Please try again.
                 </p>
               </div>
-            ) : filteredProducts?.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 pb-10">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
+            ) : currentProducts?.length > 0 ? (
+              <>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 mb-8">
+                  {currentProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+
+                {/* Pagination */}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  className="mb-10"
+                />
+              </>
             ) : (
               <NoProductAvailable
                 selectedTab={
