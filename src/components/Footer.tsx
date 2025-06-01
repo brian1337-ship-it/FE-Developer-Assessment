@@ -27,7 +27,6 @@ const Footer = () => {
             <SocialMedia
               className="text-darkColor/60"
               iconClassName="border-darkColor/60 hover:border-shop_light_green hover:text-shop_light_green"
-              tooltipClassName="bg-darkColor text-white"
             />
           </div>
           <div>
