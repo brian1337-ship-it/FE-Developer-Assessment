@@ -1,10 +1,5 @@
-import {
-  useQuery,
-  useInfiniteQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type {
-  QueryError,
   ProductQueryOptions,
   Product,
   ProductsQueryParams,
@@ -22,10 +17,13 @@ const defaultQueryOptions: ProductQueryOptions = {
 
 /**
  * Fetches products from the Fake Store API
- * @param params Query parameters (limit, offset, category, sort)
+ * @param params Query parameters:
+ *   - limit: Number of products to fetch (1-20, defaults to all ~20 products)
+ *   - category: Filter by specific category
+ *   - sort: Sort order ('asc' or 'desc')
  */
 export const useProducts = (params: ProductsQueryParams = {}) => {
-  const { limit, offset, category, sort } = params;
+  const { limit, category, sort } = params;
 
   // Build the URL with query parameters
   let url = `${API_URL}/products`;
@@ -35,10 +33,9 @@ export const useProducts = (params: ProductsQueryParams = {}) => {
     url = `${url}/category/${category}`;
   }
 
-  // Add query parameters
+  // Add query parameters. FakeStore API will support limit (1-20) and sort only. No offset.
   const queryParams = new URLSearchParams();
   if (limit) queryParams.append("limit", limit.toString());
-  if (offset) queryParams.append("offset", offset.toString());
   if (sort) queryParams.append("sort", sort);
 
   const queryString = queryParams.toString();
@@ -53,6 +50,9 @@ export const useProducts = (params: ProductsQueryParams = {}) => {
         const response = await fetch(url);
 
         if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error(`Category "${category}" not found`);
+          }
           throw new Error(
             `Failed to fetch products: ${response.status} ${response.statusText}`
           );
@@ -66,7 +66,7 @@ export const useProducts = (params: ProductsQueryParams = {}) => {
           : new Error("An unknown error occurred while fetching products");
       }
     },
-    ...defaultQueryOptions, // Apply default options first
+    ...defaultQueryOptions, // Apply default options
   });
 };
 
@@ -138,92 +138,8 @@ export const useCategories = () => {
 };
 
 /**
- * Fetches products with infinite scroll support from the Fake Store API
- * @param params Query parameters (limit, category, sort)
- */
-export const useInfiniteProducts = (
-  params: Omit<ProductsQueryParams, "offset"> = {}
-) => {
-  const { limit = 10, category, sort } = params;
-
-  return useInfiniteQuery<Product[], QueryError>({
-    queryKey: ["infiniteProducts", params],
-    queryFn: async ({ pageParam = 0 }: { pageParam?: number }) => {
-      try {
-        // Build the URL with query parameters
-        let url = `${API_URL}/products`;
-
-        // Add category filter if provided
-        if (category) {
-          url = `${url}/category/${category}`;
-        }
-
-        // Add query parameters for pagination
-        const queryParams = new URLSearchParams();
-
-        // Always include the limit parameter
-        queryParams.append("limit", limit.toString());
-
-        // Specify starting point when paginating
-        const offset =
-          typeof pageParam === "number" && pageParam > 0
-            ? pageParam * limit
-            : 0;
-        if (offset > 0) {
-          queryParams.append("offset", offset.toString());
-        }
-
-        // Add sorting if provided
-        if (sort) {
-          queryParams.append("sort", sort);
-        }
-
-        // Append query parameters to URL
-        url = `${url}?${queryParams.toString()}`;
-
-        // Fetch data from API
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          const error: QueryError = new Error(
-            `HTTP error! status: ${response.status}`
-          );
-          error.status = response.status;
-          throw error;
-        }
-
-        return await response.json();
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        throw error;
-      }
-    },
-    getNextPageParam: (lastPage, allPages) => {
-      // If we received fewer items than the limit, we've reached the end
-      if (!lastPage || lastPage.length < limit) {
-        return undefined;
-      }
-
-      // Otherwise, return the next page index
-      return allPages.length;
-    },
-    initialPageParam: 0,
-    ...defaultQueryOptions,
-  });
-};
-
-/**
- * Helper hook for invalidating interests cache
- * @returns A function to invalidate the interests cache
- */
-export const useInvalidateInterests = () => {
-  const queryClient = useQueryClient();
-  return () => queryClient.invalidateQueries({ queryKey: ["interests"] });
-};
-
-/**
  * Searches products by title/description from the Fake Store API
- * Note: FakeStore API doesn't have native search, so we fetch all products and filter client-side
+ * FakeStore API doesn't have native search, so we fetch all products and filter client-side
  * @param searchQuery The search term
  * @param enabled Whether to enable the query
  */
@@ -231,6 +147,13 @@ export const useSearchProducts = (
   searchQuery: string,
   enabled: boolean = true
 ) => {
+  // Create merged options with conditional enabled setting
+  const mergedOptions = {
+    ...defaultQueryOptions,
+    // Override enabled: only search if query exists and enabled is true
+    enabled: enabled && searchQuery.length > 0,
+  };
+
   return useQuery<Product[]>({
     queryKey: ["searchProducts", searchQuery],
     queryFn: async () => {
@@ -265,7 +188,22 @@ export const useSearchProducts = (
           : new Error("An unknown error occurred while searching products");
       }
     },
-    enabled: enabled && searchQuery.length > 0, // Only search if query exists
-    ...defaultQueryOptions,
+    ...mergedOptions,
   });
+};
+
+/**
+ * Helper hook for invalidating cache
+ * @returns A function to invalidate specific query cache
+ */
+export const useInvalidateCache = () => {
+  const queryClient = useQueryClient();
+  return {
+    invalidateProducts: () =>
+      queryClient.invalidateQueries({ queryKey: ["products"] }),
+    invalidateCategories: () =>
+      queryClient.invalidateQueries({ queryKey: ["categories"] }),
+    invalidateProduct: (id: number) =>
+      queryClient.invalidateQueries({ queryKey: ["product", id] }),
+  };
 };

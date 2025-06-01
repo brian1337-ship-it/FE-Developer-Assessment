@@ -15,27 +15,26 @@ const HomeProducts = () => {
   // State to track the selected category
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-  // Fetch products based on selected category
+  // Fetch products based on selected category with limit and sort
   const { data: products = [], isLoading: productsLoading } = useProducts(
-    selectedCategory ? { category: selectedCategory } : {}
+    selectedCategory
+      ? {
+          category: selectedCategory,
+          limit: 10, // Show max 10 products per category
+          sort: "desc", // Show newer/higher ID products first
+        }
+      : { limit: 10, sort: "desc" } // Show max 10 products for all products
   );
 
   // Use first category as default if none is selected
   useEffect(() => {
     if (categories.length > 0) {
-      // console.log("Available categories:", categories);
-
       // Select first category as default if none is selected
       if (!selectedCategory) {
         setSelectedCategory(categories[0]);
       }
     }
   }, [categories, selectedCategory]);
-
-  // Log products when they change
-  // useEffect(() => {
-  //   console.log("Products for category:", selectedCategory, products);
-  // }, [products, selectedCategory]);
 
   // Combined loading state
   const loading = categoriesLoading || productsLoading;
