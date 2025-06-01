@@ -1,9 +1,13 @@
+import React from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import React from "react";
 import { Toaster } from "react-hot-toast";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />

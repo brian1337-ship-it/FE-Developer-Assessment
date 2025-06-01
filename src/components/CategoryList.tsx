@@ -1,7 +1,6 @@
-import React from "react";
-import Title from "../Title";
-import { Label } from "../ui/label";
-import Checkbox from "../ui/checkbox";
+import Title from "@/components/Title";
+import { Label } from "@/components/ui/label";
+import Checkbox from "@/components/ui/checkbox";
 
 interface Props {
   categories: string[];

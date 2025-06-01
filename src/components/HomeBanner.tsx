@@ -1,4 +1,4 @@
-import { Title } from "./ui/Text";
+import { Title } from "@/components/ui/Text";
 import { Link } from "react-router-dom";
 import banner_1 from "@/images/banner/banner_1.png";
 

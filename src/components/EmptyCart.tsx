@@ -1,5 +1,4 @@
 import { ShoppingCart } from "lucide-react";
-
 import { motion } from "framer-motion";
 import { emptyCart } from "@/images";
 import { Link } from "react-router-dom";

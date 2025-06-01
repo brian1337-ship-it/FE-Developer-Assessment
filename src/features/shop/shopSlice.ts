@@ -27,7 +27,7 @@ const loadCartFromStorage = () => {
     const savedCart = localStorage.getItem(cartStorageKey);
     if (savedCart) {
       const parsedCart = JSON.parse(savedCart);
-      // Validate the structure to ensure it matches our CartItem interface
+      // Validate the structure to ensure it matches CartItem interface
       if (parsedCart.items && Array.isArray(parsedCart.items)) {
         return parsedCart;
       }

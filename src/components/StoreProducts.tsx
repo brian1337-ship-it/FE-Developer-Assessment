@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Title from "./Title";
+import { useState } from "react";
+import Title from "@/components/Title";
 import { Loader2 } from "lucide-react";
 import NoProductAvailable from "./NoProductAvailable";
 import ProductCard from "./ProductCard";
 import Section from "./Section";
-import CategoryList from "./store/CategoryList";
 import { useProducts, useCategories } from "@/hooks/useFakeStoreApi";
 import Pagination from "./ui/Pagination";
+import CategoryList from "./CategoryList";
 
 const StoreProducts = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8; // Show 8 products per page for better pagination demo
+  const productsPerPage = 8;
 
   // Fetch categories from API
   const {

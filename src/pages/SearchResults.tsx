@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import Layout from "./Layout";
+import Layout from "@/components/Layout";
 import Section from "@/components/Section";
 import { useSearchProducts } from "@/hooks/useFakeStoreApi";
 import { Loader2 } from "lucide-react";
@@ -10,13 +10,13 @@ import Pagination from "@/components/ui/Pagination";
 import { useEffect, useState } from "react";
 
 const SearchResults = () => {
-  // Extract search query from URL parameter (?q=searchterm)
+  // Extract search query from URL parameter
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 12; // Show 12 products per page on search
+  const productsPerPage = 12;
 
-  // Fetch search results (React Query auto-caches by query key)
+  // Fetch search results
   const { data: allProducts = [], isLoading, error } = useSearchProducts(query);
 
   // Pagination logic
@@ -38,7 +38,6 @@ const SearchResults = () => {
   return (
     <Layout>
       <Section className="py-10">
-        {/* Search results header with count */}
         <div className="mb-8">
           <Title className="text-2xl mb-2">Search Results</Title>
           {query && (
@@ -61,7 +60,6 @@ const SearchResults = () => {
           )}
         </div>
 
-        {/* Results display logic */}
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-shop_dark_green" />
@@ -78,14 +76,13 @@ const SearchResults = () => {
           </div>
         ) : currentProducts.length > 0 ? (
           <>
-            {/* Display search results grid */}
+            {/* Search results grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
               {currentProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
 
-            {/* Pagination */}
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -93,7 +90,6 @@ const SearchResults = () => {
             />
           </>
         ) : (
-          // No results found
           <NoProductAvailable
             selectedTab={`search "${query}"`}
             className="bg-white mt-0"

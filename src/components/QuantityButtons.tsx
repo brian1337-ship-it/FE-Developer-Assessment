@@ -2,7 +2,7 @@ import { Minus, Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import type { Product } from "@/types/fakeStoreApi";
 import { cn } from "@/utils/styleMerge";
-import { Button } from "./ui/Button";
+import { Button } from "@/components/ui/Button";
 import { addItem, removeItem } from "@/features/shop/shopSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store/store";

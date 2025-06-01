@@ -1,12 +1,10 @@
-import React, { FC } from "react";
-
+import type { FC } from "react";
 import { X } from "lucide-react";
 import { headerData } from "@/constants/data";
 import { Link, useLocation } from "react-router-dom";
-
-import { useOutsideClick } from "@/hooks";
-import SocialMedia from "../SocialMedia";
-import Logo from "../Logo";
+import { useOutsideClick } from "@/hooks/useUI";
+import SocialMedia from "@/components/SocialMedia";
+import Logo from "@/components/Logo";
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;

@@ -1,5 +1,4 @@
-import React from "react";
-import Layout from "./Layout";
+import Layout from "@/components/Layout";
 import Section from "@/components/Section";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store/store";
@@ -21,7 +20,9 @@ import {
 
 const Cart = () => {
   const dispatch = useDispatch();
+  // Access the cart state from Redux store
   const { cart } = useSelector((state: RootState) => state.shop);
+  // Selectors to get subtotal, total price, and discount amount from the cart state
   const subtotalPrice = useSelector(selectSubTotalPrice);
   const totalPrice = useSelector(selectTotalPrice);
   const discountAmount = useSelector(selectDiscountAmount);

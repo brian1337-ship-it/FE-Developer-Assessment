@@ -1,15 +1,15 @@
 import { Search, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
-import { useOutsideClick } from "@/hooks";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { useOutsideClick } from "@/hooks/useUI";
 import { useSearchProducts } from "@/hooks/useFakeStoreApi";
 
 const SearchBar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // User's real-time input
-  const [debouncedQuery, setDebouncedQuery] = useState(""); // Delayed query for API calls
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1); // Keyboard navigation index
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const SearchBar = () => {
     setSelectedIndex(-1);
   });
 
-  // Debounce: Wait 300ms after user stops typing before making API call
+  // Delayed query for API calls: Wait 300ms after user stops typing before making API call
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(searchQuery);
@@ -28,7 +28,7 @@ const SearchBar = () => {
     return () => clearTimeout(timer); // Cleanup on each keystroke
   }, [searchQuery]);
 
-  // Fetch suggestions using debounced query (React Query handles caching)
+  // Fetch suggestions using debounced query (caching handled by React Query)
   const { data: suggestions = [] } = useSearchProducts(debouncedQuery);
   const limitedSuggestions = suggestions.slice(0, 5); // Show max 5 suggestions
 
@@ -84,7 +84,7 @@ const SearchBar = () => {
         <Search className="w-5 h-5 hover:text-shop_light_green hoverEffect" />
       </button>
 
-      {/* Full-screen search overlay */}
+      {/* Search overlay */}
       {isSearchOpen && (
         <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm">
           <div className="absolute top-0 left-0 right-0 bg-white shadow-lg">

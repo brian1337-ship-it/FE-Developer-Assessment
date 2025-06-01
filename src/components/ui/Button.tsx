@@ -3,7 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import type { VariantProps } from "class-variance-authority";
 
 import { cn } from "@/utils/styleMerge";
-import { buttonVariants } from "./button-variants";
+import { buttonVariants } from "@/components/ui/button-variants";
 
 const Button = ({
   className,

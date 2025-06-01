@@ -1,6 +1,6 @@
-import FooterTop from "./FooterTop";
-import Logo from "./Logo";
-import { SubText, SubTitle } from "./ui/Text";
+import FooterTop from "@/components/FooterTop";
+import Logo from "@/components/Logo";
+import { SubText, SubTitle } from "@/components/ui/Text";
 import { quickLinksData } from "@/constants/data";
 import { Link } from "react-router-dom";
 import Section from "./Section";

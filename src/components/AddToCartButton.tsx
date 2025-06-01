@@ -1,7 +1,7 @@
 import { ShoppingBag } from "lucide-react";
 import toast from "react-hot-toast";
 import type { Product } from "@/types/fakeStoreApi";
-import { Button } from "./ui/Button";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/utils/styleMerge";
 import QuantityButtons from "./QuantityButtons";
 import PriceFormatter from "./PriceFormatter";
@@ -15,8 +15,6 @@ interface Props {
 }
 
 const AddToCartButton = ({ product, className }: Props) => {
-  //  const { addItem, getItemCount } = useStore();
-  // const itemCount = getItemCount(product?.id);
   const dispatch = useDispatch();
   const { cart } = useSelector((state: RootState) => state.shop);
 

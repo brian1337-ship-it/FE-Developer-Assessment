@@ -16,7 +16,7 @@ const defaultQueryOptions: ProductQueryOptions = {
 };
 
 /**
- * Fetches products from the Fake Store API
+ * Fetch products from the Fake Store API
  * @param params Query parameters:
  *   - limit: Number of products to fetch (1-20, defaults to all ~20 products)
  *   - category: Filter by specific category
@@ -25,7 +25,7 @@ const defaultQueryOptions: ProductQueryOptions = {
 export const useProducts = (params: ProductsQueryParams = {}) => {
   const { limit, category, sort } = params;
 
-  // Build the URL with query parameters
+  // Build the base URL for products
   let url = `${API_URL}/products`;
 
   // Add category filter if provided
@@ -33,7 +33,7 @@ export const useProducts = (params: ProductsQueryParams = {}) => {
     url = `${url}/category/${category}`;
   }
 
-  // Add query parameters. FakeStore API will support limit (1-20) and sort only. No offset.
+  // Add query parameters. FakeStore API supports limit and sort only. No offset.
   const queryParams = new URLSearchParams();
   if (limit) queryParams.append("limit", limit.toString());
   if (sort) queryParams.append("sort", sort);
@@ -66,19 +66,18 @@ export const useProducts = (params: ProductsQueryParams = {}) => {
           : new Error("An unknown error occurred while fetching products");
       }
     },
-    ...defaultQueryOptions, // Apply default options
+    ...defaultQueryOptions,
   });
 };
 
 /**
- * Fetches a single product by ID
- * @param productId The ID of the product to fetch
+ * Fetch a single product by ID
+ * @param productId ID of the product to fetch
  */
 export const useProduct = (productId: number | undefined) => {
-  // Create merged options with the conditional enabled setting
   const mergedOptions = {
     ...defaultQueryOptions,
-    // Override the enabled option with our conditional check:
+    // Override the enabled option with a conditional check:
     // Only execute the query if productId exists
     enabled: !!productId && defaultQueryOptions.enabled,
   };
@@ -112,7 +111,7 @@ export const useProduct = (productId: number | undefined) => {
 };
 
 /**
- * Fetches all available product categories
+ * Fetch all available product categories
  */
 export const useCategories = () => {
   return useQuery<string[]>({
@@ -138,12 +137,11 @@ export const useCategories = () => {
 };
 
 /**
- * Searches products by title/description from the Fake Store API
+ * Search products by title/description from the Fake Store API
  * FakeStore API doesn't have native search, so we fetch all products and filter client-side
  * @param searchQuery The search term
  */
 export const useSearchProducts = (searchQuery: string) => {
-  // Create merged options with conditional enabled setting
   const mergedOptions = {
     ...defaultQueryOptions,
     // Only search if query exists (minimum 2 characters for better UX)

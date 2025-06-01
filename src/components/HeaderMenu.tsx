@@ -1,6 +1,5 @@
 import { headerData } from "@/constants/data";
 import { Link, useLocation } from "react-router-dom";
-import React from "react";
 
 const HeaderMenu = () => {
   const location = useLocation();

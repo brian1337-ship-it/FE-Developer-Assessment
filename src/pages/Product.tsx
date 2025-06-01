@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Layout from "./Layout";
+import Layout from "@/components/Layout";
 import Section from "@/components/Section";
 import { useProduct } from "@/hooks/useFakeStoreApi";
 import { Loader2 } from "lucide-react";
@@ -8,6 +8,7 @@ import PriceView from "@/components/PriceView";
 import { Rating } from "@/components/ui/Rating";
 
 const Product = () => {
+  // Extract product ID from URL parameters
   const { id } = useParams<{ id: string }>();
 
   const productId = id ? parseInt(id, 10) : undefined;

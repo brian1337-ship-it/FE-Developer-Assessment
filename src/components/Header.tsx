@@ -1,10 +1,9 @@
-import Logo from "./Logo";
-
-import Section from "./Section";
-import MobileMenu from "./ui/MobileMenu";
-import CartIcon from "./CartIcon";
-import SearchBar from "./SearchBar";
-import HeaderMenu from "./HeaderMenu";
+import Logo from "@/components/Logo";
+import Section from "@/components/Section";
+import MobileMenu from "@/components/ui/MobileMenu";
+import CartIcon from "@/components/CartIcon";
+import SearchBar from "@/components/SearchBar";
+import HeaderMenu from "@/components/HeaderMenu";
 
 const Header = () => {
   return (

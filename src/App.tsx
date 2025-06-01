@@ -1,7 +1,7 @@
 import Section from "@/components/Section";
-import Layout from "@/pages/Layout";
-import HomeBanner from "./components/HomeBanner";
-import HomeProducts from "./components/HomeProducts";
+import Layout from "@/components/Layout";
+import HomeBanner from "@/components/HomeBanner";
+import HomeProducts from "@/components/HomeProducts";
 
 const App = () => {
   return (

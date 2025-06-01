@@ -1,5 +1,5 @@
 import { cn } from "@/utils/styleMerge";
-import PriceFormatter from "./PriceFormatter";
+import PriceFormatter from "@/components/PriceFormatter";
 
 interface Props {
   price: number | undefined;

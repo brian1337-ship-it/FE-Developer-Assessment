@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Title from "./Title";
+import Title from "@/components/Title";
 import type { Product } from "@/types/fakeStoreApi";
 import PriceView from "./PriceView";
 import AddToCartButton from "./AddToCartButton";

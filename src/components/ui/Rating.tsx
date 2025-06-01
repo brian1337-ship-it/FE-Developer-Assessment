@@ -37,7 +37,7 @@ const Rating = ({
               />
             );
           } else if (rating >= starValue - 0.5) {
-            // Partial star (using CSS mask for half-fill effect)
+            // Partial star (CSS mask for half-fill effect)
             return (
               <div key={index} className="relative">
                 <Star

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import NoProductAvailable from "./NoProductAvailable";
+import NoProductAvailable from "@/components/NoProductAvailable";
 import { Loader2 } from "lucide-react";
 import { useCategories, useProducts } from "@/hooks/useFakeStoreApi";
 import Section from "./Section";
@@ -12,7 +12,7 @@ const HomeProducts = () => {
   const { data: categories = [], isLoading: categoriesLoading } =
     useCategories();
 
-  // State to track the selected category
+  // Track the selected category
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
   // Fetch products based on selected category with limit and sort
@@ -20,16 +20,15 @@ const HomeProducts = () => {
     selectedCategory
       ? {
           category: selectedCategory,
-          limit: 10, // Show max 10 products per category
-          sort: "desc", // Show newer/higher ID products first
+          limit: 10,
+          sort: "desc",
         }
-      : { limit: 10, sort: "desc" } // Show max 10 products for all products
+      : { limit: 10, sort: "desc" }
   );
 
   // Use first category as default if none is selected
   useEffect(() => {
     if (categories.length > 0) {
-      // Select first category as default if none is selected
       if (!selectedCategory) {
         setSelectedCategory(categories[0]);
       }
@@ -41,7 +40,7 @@ const HomeProducts = () => {
 
   return (
     <Section className="flex flex-col lg:px-0 my-10">
-      {/* Category selection UI - simple buttons for now */}
+      {/* Category selection UI */}
       {!categoriesLoading && categories.length > 0 && (
         <CategoryBar
           selectedCategory={selectedCategory}
@@ -50,7 +49,7 @@ const HomeProducts = () => {
         />
       )}
 
-      {/* Loading and product display logic */}
+      {/* Product display */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-10 min-h-80 space-y-4 text-center bg-gray-100 rounded-lg w-full mt-10">
           <motion.div className="flex items-center space-x-2 text-blue-600">
