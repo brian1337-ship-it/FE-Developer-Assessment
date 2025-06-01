@@ -1,54 +1,102 @@
-# React + TypeScript + Vite
+# Taager Frontend Developer Assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An e-commerce store built with React, TypeScript, and Vite. This project demonstrates a complete product browsing experience with cart functionality, search capabilities, and responsive design.
 
-Currently, two official plugins are available:
+## 📋 Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project showcases:
 
-## Expanding the ESLint configuration
+- Clean, maintainable code structure
+- Product listing and detail pages
+- Shopping cart functionality with persistent state
+- Search and filtering capabilities
+- Responsive design for mobile and desktop
+- Modern React patterns with TypeScript
+- State management with Redux Toolkit
+- API integration with error handling
+- Performance optimizations
+- Deploy app on Vercel
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠 Tech Stack
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Frontend Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS with custom components
+- **State Management**: Redux Toolkit
+- **Data Fetching**: TanStack Query (React Query)
+- **Routing**: React Router DOM
+- **UI Components**: Custom components with Radix UI primitives
+- **Icons**: Lucide React
+- **Notifications**: React Hot Toast
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # Base UI components (Button, Separator, etc.)
+│   ├── Layout.tsx      # Main layout wrapper
+│   ├── Header.tsx      # Navigation and search
+│   ├── ProductCard.tsx # Product display component
+│   └── ...
+├── features/           # Feature-based modules
+│   └── shop/          # Shopping cart logic
+│       └── shopSlice.ts
+├── hooks/             # Custom React hooks
+│   ├── useFakeStoreApi.ts  # API integration hooks
+│   └── useUI.ts  # DOM utility hooks
+├── pages/             # Page components
+│   ├── Home.tsx       # Homepage with featured products
+│   ├── Products.tsx   # Product listing page
+│   ├── ProductDetail.tsx  # Individual product page
+│   ├── Cart.tsx       # Shopping cart page
+│   └── SearchResults.tsx  # Search results page
+├── store/             # Redux store configuration
+│   └── store.ts
+├── types/             # TypeScript type definitions
+│   └── fakeStoreApi.ts
+├── utils/             # Utility functions
+├── App.tsx            # Main app component
+└── main.tsx          # Application entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔧 Setup Instructions
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+- Node.js (v18 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone [repository-url]
+   cd FE-Developer-Assessment
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Start development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+```
+
+## 🚀 Live Demo
+
+[View Live Application](#) <!-- http -->
+
+---
 ```
