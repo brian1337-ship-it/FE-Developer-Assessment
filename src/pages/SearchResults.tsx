@@ -8,14 +8,17 @@ import NoProductAvailable from "@/components/NoProductAvailable";
 import Title from "@/components/Title";
 
 const SearchResults = () => {
+  // Extract search query from URL parameter (?q=searchterm)
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
 
+  // Fetch search results (React Query auto-caches by query key)
   const { data: products = [], isLoading, error } = useSearchProducts(query);
 
   return (
     <Layout>
       <Section className="py-10">
+        {/* Search results header with count */}
         <div className="mb-8">
           <Title className="text-2xl mb-2">Search Results</Title>
           {query && (
@@ -29,6 +32,7 @@ const SearchResults = () => {
           )}
         </div>
 
+        {/* Results display logic */}
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-shop_dark_green" />
@@ -44,12 +48,14 @@ const SearchResults = () => {
             </p>
           </div>
         ) : products.length > 0 ? (
+          // Display search results grid
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
+          // No results found
           <NoProductAvailable
             selectedTab={`search "${query}"`}
             className="bg-white mt-0"

@@ -141,17 +141,13 @@ export const useCategories = () => {
  * Searches products by title/description from the Fake Store API
  * FakeStore API doesn't have native search, so we fetch all products and filter client-side
  * @param searchQuery The search term
- * @param enabled Whether to enable the query
  */
-export const useSearchProducts = (
-  searchQuery: string,
-  enabled: boolean = true
-) => {
+export const useSearchProducts = (searchQuery: string) => {
   // Create merged options with conditional enabled setting
   const mergedOptions = {
     ...defaultQueryOptions,
-    // Override enabled: only search if query exists and enabled is true
-    enabled: enabled && searchQuery.length > 0,
+    // Only search if query exists (minimum 2 characters for better UX)
+    enabled: searchQuery.length >= 2,
   };
 
   return useQuery<Product[]>({
