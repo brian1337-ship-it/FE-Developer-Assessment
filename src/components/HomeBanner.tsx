@@ -21,6 +21,7 @@ const HomeBanner = () => {
         <img
           src={banner_1}
           alt="banner_1"
+          loading="lazy"
           className="hidden md:inline-flex w-96"
         />
       </div>

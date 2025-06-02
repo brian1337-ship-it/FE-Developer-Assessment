@@ -13,7 +13,8 @@ const ProductCard = ({ product }: { product: Product }) => {
           <Link to={`/product/${product?.id}`}>
             <img
               src={product.image}
-              alt="productImage"
+              alt={product.title}
+              loading="lazy"
               className="w-full h-64 object-contain overflow-hidden transition-transform bg-shop_light_bg duration-500 group-hover:scale-105"
             />
           </Link>

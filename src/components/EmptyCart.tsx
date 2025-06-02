@@ -27,27 +27,14 @@ export default function EmptyCart() {
           <img
             src={emptyCart}
             alt="Empty shopping cart"
+            loading="lazy"
             className="drop-shadow-lg object-contain"
           />
-          <motion.div
-            animate={{
-              x: [0, -10, 10, 0],
-              y: [0, -5, 5, 0],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 3,
-              ease: "linear",
-            }}
-            className="absolute -top-4 -right-4 bg-blue-500 rounded-full p-2"
-          >
-            <ShoppingCart size={24} className="text-white" />
-          </motion.div>
         </motion.div>
 
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold text-gray-800">
-            Your cart is feeling lonely
+            Your cart is empty
           </h2>
           <p className="text-gray-600">
             It looks like you haven&apos;t added anything to your cart yet.

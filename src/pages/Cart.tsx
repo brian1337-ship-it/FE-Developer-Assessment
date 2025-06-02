@@ -66,6 +66,7 @@ const Cart = () => {
                               <img
                                 src={product.image}
                                 alt="productImage"
+                                loading="lazy"
                                 className="w-32 md:w-40 h-32 md:h-40 object-cover group-hover:scale-105 hoverEffect"
                               />
                             </Link>

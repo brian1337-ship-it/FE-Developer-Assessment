@@ -144,9 +144,11 @@ const SearchBar = () => {
                         selectedIndex === index ? "bg-gray-50" : ""
                       }`}
                     >
+                      {/* native lazy loading */}
                       <img
                         src={product.image}
                         alt={product.title}
+                        loading="lazy"
                         className="w-8 h-8 object-contain rounded"
                       />
                       <div className="flex-1 min-w-0">
