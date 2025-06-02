@@ -92,11 +92,8 @@ src/
    yarn dev
    ```
 
-```
-
 ## 🚀 Live Demo
 
-[View Live Application](#) <!-- http -->
+- [View Live Application](https://fe-developer-assessment-5kn9.vercel.app/)
 
 ---
-```
