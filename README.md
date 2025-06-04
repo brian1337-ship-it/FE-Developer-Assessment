@@ -1,5 +1,3 @@
-# Taager Frontend Developer Assessment
-
 An e-commerce store built with React, TypeScript, and Vite. This project demonstrates a complete product browsing experience with cart functionality, search capabilities, and responsive design.
 
 ## 📋 Project Overview
